@@ -25,12 +25,12 @@ where id = '1'
 
 -- 선택 일정 수정하기
 UPDATE schedules
-SET id = '1',
+SET 	id = '1',
 	user_name = '정동수',
 	title = '청소하기',
-    content = '고양이 화장실 청소하기',
-    created_at = 'YYYY-MM-DD',
-    updated_at = CURRENT_DATE
+    	content = '고양이 화장실 청소하기',
+    	created_at = 'YYYY-MM-DD',
+    	updated_at = CURRENT_DATE
 WHERE id = '1'
     
 
