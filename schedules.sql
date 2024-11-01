@@ -1,12 +1,12 @@
 -- schedule 테이블 생성
 CREATE TABLE schedules
 (   id					INTEGER				NOT NULL,
-    user_name    		VARCHAR(20)			NOT NULL,
-    title				VARCHAR(20)         NULL,
-    content				VARCHAR(225)		NULL,
-    password			VARCHAR(20)			NULL,
-    created_at			DATE				NULL,
-    updated_at			DATE				NULL,
+    user_name    			VARCHAR(20)			NOT NULL,
+    title				VARCHAR(20)         		NULL,
+    content				VARCHAR(225)			NULL,
+    password				VARCHAR(20)			NULL,
+    created_at				DATE				NULL,
+    updated_at				DATE				NULL,
     PRIMARY KEY (id)                  );
  
 -- 일정 생성하기 
