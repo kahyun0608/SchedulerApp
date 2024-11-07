@@ -22,14 +22,14 @@ public class Schedule {
     private String updatedAt;
 
     //생성자
-    public Schedule(String userName, String title, String contents , String password){
+    public Schedule(String userName, String title, String contents, String password) {
         this.userName = userName;
         this.title = title;
         this.contents = contents;
         this.password = password;
     }
 
-    public Schedule(String password){
+    public Schedule(String password) {
         this.password = password;
     }
 

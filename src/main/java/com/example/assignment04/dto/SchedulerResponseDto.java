@@ -21,7 +21,7 @@ public class SchedulerResponseDto {
     private String updatedAt;
 
 
-    public SchedulerResponseDto(Schedule schedule){
+    public SchedulerResponseDto(Schedule schedule) {
         this.id = schedule.getId();
         this.userName = schedule.getUserName();
         this.title = schedule.getTitle();

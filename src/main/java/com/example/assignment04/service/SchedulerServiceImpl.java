@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class SchedulerServiceImpl implements SchedulerService{
+public class SchedulerServiceImpl implements SchedulerService {
 
     //repository 사용위해 필드와 생성자 지정
     private final SchedulerRepository schedulerRepository;
@@ -61,12 +61,13 @@ public class SchedulerServiceImpl implements SchedulerService{
 
         Schedule schedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
 
-
-        if (!schedule.getPassword().equals(password)){
+        //비밀번호 확인 -> 윗줄에서 받아온 schedule에 password가 이미 담겨있다
+        if (!schedule.getPassword().equals(password)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password.");
         }
 
-        //
+        //입력 항목들이 null일 경우, 위에서 받아온 schedule의 값을 대입해 null로 업데이트 되는 것을 방지
+        //입력 항목이 이미 입력된 값과 같은 경우 업데이트를 해도 변화가 없으니 상관X
         if (userName == null) {
             userName = schedule.getUserName();
         }
@@ -79,24 +80,26 @@ public class SchedulerServiceImpl implements SchedulerService{
             contents = schedule.getContents();
         }
 
-        //수정된 사항이 없다면 id
+        //수정된 사항이 없다면 입력값이 조건에 맞지 않는 것이므로 예외처리
         int updatedRow = schedulerRepository.updateSchedule(id, userName, title, contents);
 
         if (updatedRow == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This is a wrong request.");
         }
 
+        //마지막으로 수정된 값들을 다시 조회
         Schedule updatedSchedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
 
         return new SchedulerResponseDto(updatedSchedule);
     }
 
+    //선택 일정 삭제
     @Override
     public void deleteSchedule(Long id, String password) {
 
         Schedule schedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
 
-        if (!schedule.getPassword().equals(password)){
+        if (!schedule.getPassword().equals(password)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password.");
         }
 

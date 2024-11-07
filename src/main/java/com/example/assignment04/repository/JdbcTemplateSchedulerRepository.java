@@ -24,6 +24,7 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
 
     //필드
     private final JdbcTemplate jdbcTemplate;
+
     //생성자
     public JdbcTemplateSchedulerRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -52,14 +53,15 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
 
     }
 
+    //전체 일정 조회
     @Override
     public List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt) {
 
-        //조건문 : userName이 입력되었을 경우, updatedAt이 입력되었을 경우, 모두 입력되었을 경우
+        //조건문 : userName이 입력되었을 경우, updatedAt이 입력되었을 경우, 모두 입력되었을 경우, 입력이 안 되었을 경우
         //If문을 service layer로 넘기고 repository layer에 메서드를 여러개 만드는 게 나을까?
-        if (userName != null && updatedAt == null){
+        if (userName != null && updatedAt == null) {
             return jdbcTemplate.query("select * from schedules where user_name = ? order by updated_at desc", scheduleRowMapper(), userName);
-        } else if (userName == null && updatedAt != null){
+        } else if (userName == null && updatedAt != null) {
             return jdbcTemplate.query("select * from schedules where substring(updated_at, 1, 10) = ? order by updated_at desc", scheduleRowMapper(), updatedAt);
         } else if (userName != null && updatedAt != null) {
             return jdbcTemplate.query("select * from schedules where user_name = ? and substring(updated_at, 1, 10) = ? order by updated_at desc", scheduleRowMapper(), userName, updatedAt);
@@ -69,6 +71,7 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
 
     }
 
+    //선택 일정 조회
     @Override
     public Schedule findScheduleByIdOrElseThrow(Long id) {
         List<Schedule> result = jdbcTemplate.query("select * from schedules where id = ?", scheduleRowMapperV2(), id);
@@ -76,19 +79,19 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id = " + id));
     }
 
+    //선택 일정 수정
     @Override
     public int updateSchedule(Long id, String userName, String title, String contents) {
-
-         return jdbcTemplate.update("update schedules set user_name = ?, title = ?, contents = ? where id = ?", userName, title, contents, id);
-
+        return jdbcTemplate.update("update schedules set user_name = ?, title = ?, contents = ? where id = ?", userName, title, contents, id);
     }
 
+    //선택 일정 삭제
     @Override
     public int deleteSchedule(Long id) {
-
-        return jdbcTemplate.update("delete from schedules where id = ?",id);
+        return jdbcTemplate.update("delete from schedules where id = ?", id);
     }
 
+    //findAllSchedules 에 사용하는 RowMapper
     private RowMapper<SchedulerResponseDto> scheduleRowMapper() {
         return new RowMapper<SchedulerResponseDto>() {
             @Override
@@ -104,6 +107,7 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
         };
     }
 
+    //findSchedulesByIdOrElseThrow 에 사용하는 RowMapper
     private RowMapper<Schedule> scheduleRowMapperV2() {
         return new RowMapper<Schedule>() {
             @Override

@@ -21,7 +21,7 @@ public class SchedulerResponseDtoForSaveSchedule {
     private String createdAt;
 
 
-    public SchedulerResponseDtoForSaveSchedule(Schedule schedule){
+    public SchedulerResponseDtoForSaveSchedule(Schedule schedule) {
         this.id = schedule.getId();
         this.userName = schedule.getUserName();
         this.title = schedule.getTitle();
