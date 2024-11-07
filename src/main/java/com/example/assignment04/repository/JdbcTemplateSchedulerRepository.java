@@ -83,14 +83,10 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
 
     }
 
-    //비밀번호 확인 메서드
-    public boolean checkPassword(Long id, String password){
-        String dbPassword = jdbcTemplate.query("select * from schedules where id = ?", scheduleRowMapperV3(), id).stream().findAny().get().getPassword();
-        if (dbPassword.equals(password)){
-            return true;
-        } else {
-            return false;
-        }
+    @Override
+    public int deleteSchedule(Long id) {
+
+        return jdbcTemplate.update("delete from schedules where id = ?",id);
     }
 
     private RowMapper<SchedulerResponseDto> scheduleRowMapper() {
@@ -121,15 +117,6 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
                         rs.getString("created_at"),
                         rs.getString("updated_at")
                 );
-            }
-        };
-    }
-
-    public RowMapper<Schedule> scheduleRowMapperV3() {
-        return new RowMapper<Schedule>() {
-            @Override
-            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Schedule(rs.getString("password"));
             }
         };
     }

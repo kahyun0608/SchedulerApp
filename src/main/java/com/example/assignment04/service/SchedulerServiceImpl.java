@@ -62,7 +62,7 @@ public class SchedulerServiceImpl implements SchedulerService{
         Schedule schedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
 
 
-        if (!jdbcTemplateSchedulerRepository.checkPassword(id, password)){
+        if (!schedule.getPassword().equals(password)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password.");
         }
 
@@ -89,6 +89,23 @@ public class SchedulerServiceImpl implements SchedulerService{
         Schedule updatedSchedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
 
         return new SchedulerResponseDto(updatedSchedule);
+    }
+
+    @Override
+    public void deleteSchedule(Long id, String password) {
+
+        Schedule schedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
+
+        if (!schedule.getPassword().equals(password)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password.");
+        }
+
+        int deletedRow = schedulerRepository.deleteSchedule(id);
+
+        //id랑 패스워드를 잘 입력했지만 내부적인 오류가 터져서 삭제되지 않았을 경우
+        if (deletedRow == 0) {
+            throw new ResponseStatusException((HttpStatus.INTERNAL_SERVER_ERROR), "");
+        }
     }
 
 }

@@ -66,9 +66,9 @@ public class SchedulerController {
             @PathVariable Long id,
             @RequestBody SchedulerRequestDto dto
     ) {
-//        schedulerService.deleteMemo(id);
+        schedulerService.deleteSchedule(id, dto.getPassword());
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
