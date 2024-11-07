@@ -3,12 +3,12 @@ package com.example.assignment04.dto;
 import com.example.assignment04.entity.Schedule;
 import lombok.*;
 
-import java.sql.Timestamp;
+//saveSchedule 을 실행할 시 응답으로 created_at만을 호출하기 위한 ResponseDto (updqted_at X)
 
 @Setter
 @Getter
 @AllArgsConstructor
-public class SchedulerResponseDto {
+public class SchedulerResponseDtoForSaveSchedule {
 
     private Long id;
 
@@ -18,16 +18,15 @@ public class SchedulerResponseDto {
 
     private String contents;
 
-    private String updated_at;
+    private String created_at;
 
 
-    public SchedulerResponseDto(Schedule schedule){
+    public SchedulerResponseDtoForSaveSchedule(Schedule schedule){
         this.id = schedule.getId();
         this.userName = schedule.getUserName();
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
-        this.updated_at = schedule.getUpdated_at();
-
+        this.created_at = schedule.getCreated_at();
     }
 
 }

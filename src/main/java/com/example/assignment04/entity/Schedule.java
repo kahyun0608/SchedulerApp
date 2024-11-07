@@ -3,11 +3,13 @@ package com.example.assignment04.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Schedule {
 
     //필드
@@ -16,8 +18,8 @@ public class Schedule {
     private String title;
     private String contents;
     private String password;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private String created_at;
+    private String updated_at;
 
     //생성자
     public Schedule(String userName, String title, String contents , String password){

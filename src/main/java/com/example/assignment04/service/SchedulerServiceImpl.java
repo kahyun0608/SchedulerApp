@@ -2,9 +2,12 @@ package com.example.assignment04.service;
 
 import com.example.assignment04.dto.SchedulerRequestDto;
 import com.example.assignment04.dto.SchedulerResponseDto;
+import com.example.assignment04.dto.SchedulerResponseDtoForSaveSchedule;
 import com.example.assignment04.entity.Schedule;
 import com.example.assignment04.repository.SchedulerRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SchedulerServiceImpl implements SchedulerService{
@@ -17,7 +20,7 @@ public class SchedulerServiceImpl implements SchedulerService{
     }
 
     @Override
-    public SchedulerResponseDto saveSchedule(SchedulerRequestDto dto) {
+    public SchedulerResponseDtoForSaveSchedule saveSchedule(SchedulerRequestDto dto) {
         //요청받은 데이터로 Memo 객체 생성 -> Id 없음(MemoRequestDto는 id값이 없기 때문)
         Schedule schedule = new Schedule(dto.getUserName(), dto.getTitle(), dto.getContents(), dto.getPassword());
 
