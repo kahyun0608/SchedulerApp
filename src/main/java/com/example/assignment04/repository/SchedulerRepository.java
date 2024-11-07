@@ -12,4 +12,6 @@ public interface SchedulerRepository {
 
     List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt);
 
+    Schedule findScheduleByIdOrElseThrow (Long id);
+
 }

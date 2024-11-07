@@ -21,16 +21,16 @@ public class SchedulerServiceImpl implements SchedulerService{
         this.schedulerRepository = schedulerRepository;
     }
 
+    //일정 생성 API
     @Override
     public SchedulerResponseDtoForSaveSchedule saveSchedule(SchedulerRequestDto dto) {
         //요청받은 데이터로 Memo 객체 생성 -> Id 없음(MemoRequestDto는 id값이 없기 때문)
         Schedule schedule = new Schedule(dto.getUserName(), dto.getTitle(), dto.getContents(), dto.getPassword());
 
-        // DB저장 ->레파지토리의 영역이므로 넘김
-        //controller로 전달될 때 dto 형태로 전달
         return schedulerRepository.saveSchedule(schedule);
     }
 
+    //전체 일정 조회
     @Override
     public List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt) {
 
@@ -41,5 +41,13 @@ public class SchedulerServiceImpl implements SchedulerService{
         }
 
         return schedulerRepository.findAllSchedules(userName, updatedAt);
+    }
+
+    //선택 일정 조회(단건)
+    @Override
+    public SchedulerResponseDto findScheduleById(Long id) {
+        Schedule schedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
+
+        return new SchedulerResponseDto(schedule);
     }
 }

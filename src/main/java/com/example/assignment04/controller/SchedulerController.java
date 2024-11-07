@@ -42,15 +42,14 @@ public class SchedulerController {
         return schedulerService.findAllSchedules(dto.getUserName(), dto.getUpdatedAt());
     }
 
+    //단건 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<SchedulerResponseDto> findScheduleById(@PathVariable Long id) {
 
-//
-//    //단건 조회
-//    @GetMapping("/{id}")
-//    public ResponseEntity<MemoResponseDto> findMemoById(@PathVariable Long id) {
-//
-//        return new ResponseEntity<>(memoService.findMemoById(id), HttpStatus.OK);
-//    }
-//
+        return new ResponseEntity<>(schedulerService.findScheduleById(id), HttpStatus.OK);
+    }
+
+
 //    //단건 수정 기능
 //    @PutMapping("/{id}")
 //    public ResponseEntity<MemoResponseDto> updateMemo(
@@ -59,7 +58,7 @@ public class SchedulerController {
 //    ){
 //        return new ResponseEntity<>(memoService.updateMemo(id, dto.getTitle(), dto.getContents()), HttpStatus.OK);
 //    }
-//
+
 //    @PatchMapping("/{id}")
 //    public ResponseEntity<MemoResponseDto> updateTitle(
 //            @PathVariable Long id,
