@@ -56,16 +56,15 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
     public List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt) {
 
         //조건문 : userName이 입력되었을 경우, updatedAt이 입력되었을 경우, 모두 입력되었을 경우
-        // 문제 ) 하나의 값은 잘 적었는데 다른 값은 잘못(오류로) 입력해서 null로 설정될 경우 제대로 적은 조건을 바탕으로 조회가 됨
         //If문을 service layer로 넘기고 repository layer에 메서드를 여러개 만드는 게 나을까?
         if (userName != null && updatedAt == null){
             return jdbcTemplate.query("select * from schedules where user_name = ? order by updated_at desc", scheduleRowMapper(), userName);
         } else if (userName == null && updatedAt != null){
-            return jdbcTemplate.query("select * from schedules where SUBSTRING(created_at, 1, 10) = ? order by updated_at desc", scheduleRowMapper(), updatedAt);
+            return jdbcTemplate.query("select * from schedules where substring(updated_at, 1, 10) = ? order by updated_at desc", scheduleRowMapper(), updatedAt);
         } else if (userName != null && updatedAt != null) {
-            return jdbcTemplate.query("select * from schedules where user_name = ? AND SUBSTRING(created_at, 1, 10) = ? order by updated_at desc", scheduleRowMapper(), userName, updatedAt);
+            return jdbcTemplate.query("select * from schedules where user_name = ? and substring(updated_at, 1, 10) = ? order by updated_at desc", scheduleRowMapper(), userName, updatedAt);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "UserName or updatedAt is a required value to execute.");
+            return jdbcTemplate.query("select * from schedules order by updated_at desc", scheduleRowMapper());
         }
 
     }
@@ -77,6 +76,22 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id = " + id));
     }
 
+    @Override
+    public int updateSchedule(Long id, String userName, String title, String contents) {
+
+         return jdbcTemplate.update("update schedules set user_name = ?, title = ?, contents = ? where id = ?", userName, title, contents, id);
+
+    }
+
+    //비밀번호 확인 메서드
+    public boolean checkPassword(Long id, String password){
+        String dbPassword = jdbcTemplate.query("select * from schedules where id = ?", scheduleRowMapperV3(), id).stream().findAny().get().getPassword();
+        if (dbPassword.equals(password)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private RowMapper<SchedulerResponseDto> scheduleRowMapper() {
         return new RowMapper<SchedulerResponseDto>() {
@@ -106,6 +121,15 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
                         rs.getString("created_at"),
                         rs.getString("updated_at")
                 );
+            }
+        };
+    }
+
+    public RowMapper<Schedule> scheduleRowMapperV3() {
+        return new RowMapper<Schedule>() {
+            @Override
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Schedule(rs.getString("password"));
             }
         };
     }

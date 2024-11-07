@@ -4,9 +4,11 @@ import com.example.assignment04.dto.SchedulerRequestDto;
 import com.example.assignment04.dto.SchedulerResponseDto;
 import com.example.assignment04.dto.SchedulerResponseDtoForSaveSchedule;
 import com.example.assignment04.entity.Schedule;
+import com.example.assignment04.repository.JdbcTemplateSchedulerRepository;
 import com.example.assignment04.repository.SchedulerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -16,9 +18,11 @@ public class SchedulerServiceImpl implements SchedulerService{
 
     //repository 사용위해 필드와 생성자 지정
     private final SchedulerRepository schedulerRepository;
+    private final JdbcTemplateSchedulerRepository jdbcTemplateSchedulerRepository;
 
-    public SchedulerServiceImpl(SchedulerRepository schedulerRepository) {
+    public SchedulerServiceImpl(SchedulerRepository schedulerRepository, JdbcTemplateSchedulerRepository jdbcTemplateSchedulerRepository) {
         this.schedulerRepository = schedulerRepository;
+        this.jdbcTemplateSchedulerRepository = jdbcTemplateSchedulerRepository;
     }
 
     //일정 생성 API
@@ -50,4 +54,41 @@ public class SchedulerServiceImpl implements SchedulerService{
 
         return new SchedulerResponseDto(schedule);
     }
+
+    @Transactional
+    @Override
+    public SchedulerResponseDto updateSchedule(Long id, String userName, String title, String contents, String password) {
+
+        Schedule schedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
+
+
+        if (!jdbcTemplateSchedulerRepository.checkPassword(id, password)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password.");
+        }
+
+        //
+        if (userName == null) {
+            userName = schedule.getUserName();
+        }
+
+        if (title == null) {
+            title = schedule.getTitle();
+        }
+
+        if (contents == null) {
+            contents = schedule.getContents();
+        }
+
+        //수정된 사항이 없다면 id
+        int updatedRow = schedulerRepository.updateSchedule(id, userName, title, contents);
+
+        if (updatedRow == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This is a wrong request.");
+        }
+
+        Schedule updatedSchedule = schedulerRepository.findScheduleByIdOrElseThrow(id);
+
+        return new SchedulerResponseDto(updatedSchedule);
+    }
+
 }

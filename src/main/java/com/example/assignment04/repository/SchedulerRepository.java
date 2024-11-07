@@ -14,4 +14,6 @@ public interface SchedulerRepository {
 
     Schedule findScheduleByIdOrElseThrow (Long id);
 
+    int updateSchedule(Long id, String userName, String title, String contents);
+
 }

@@ -1,9 +1,8 @@
 package com.example.assignment04.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.scheduling.annotation.Schedules;
 
 import java.sql.Timestamp;
 
@@ -18,6 +17,7 @@ public class Schedule {
     private String title;
     private String contents;
     private String password;
+
     private String createdAt;
     private String updatedAt;
 
@@ -29,7 +29,8 @@ public class Schedule {
         this.password = password;
     }
 
-    //일정 단건 업데이트 (할일, 작성자명) 메서드
-
+    public Schedule(String password){
+        this.password = password;
+    }
 
 }

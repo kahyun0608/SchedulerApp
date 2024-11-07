@@ -37,9 +37,10 @@ public class SchedulerController {
     //전체 조회
     @GetMapping
     public List<SchedulerResponseDto> findAllSchedules(
-            @RequestBody SchedulerRequestDto dto
+            @RequestParam(required = false) String userName,
+            @RequestParam(required = false) String updatedAt
     ) {
-        return schedulerService.findAllSchedules(dto.getUserName(), dto.getUpdatedAt());
+        return schedulerService.findAllSchedules(userName, updatedAt);
     }
 
     //단건 조회
@@ -50,31 +51,25 @@ public class SchedulerController {
     }
 
 
-//    //단건 수정 기능
-//    @PutMapping("/{id}")
-//    public ResponseEntity<MemoResponseDto> updateMemo(
-//            @PathVariable Long id,
-//            @RequestBody MemoRequestDto dto
-//    ){
-//        return new ResponseEntity<>(memoService.updateMemo(id, dto.getTitle(), dto.getContents()), HttpStatus.OK);
-//    }
-
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<MemoResponseDto> updateTitle(
-//            @PathVariable Long id,
-//            @RequestBody MemoRequestDto dto
-//    ){
-//        return new ResponseEntity<>(memoService.updateTitle(id, dto.getTitle(), dto.getContents()), HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteMemo(@PathVariable Long id) {
-//        memoService.deleteMemo(id);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    //단건 수정 기능
+    @PutMapping("/{id}")
+    public ResponseEntity<SchedulerResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody SchedulerRequestDto dto
+    ){
+        return new ResponseEntity<>(schedulerService.updateSchedule(id, dto.getUserName(), dto.getTitle(), dto.getContents(), dto.getPassword()), HttpStatus.OK);
+    }
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(
+            @PathVariable Long id,
+            @RequestBody SchedulerRequestDto dto
+    ) {
+//        schedulerService.deleteMemo(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }
