@@ -18,8 +18,8 @@ public class Schedule {
     private String title;
     private String contents;
     private String password;
-    private String created_at;
-    private String updated_at;
+    private String createdAt;
+    private String updatedAt;
 
     //생성자
     public Schedule(String userName, String title, String contents , String password){

@@ -5,6 +5,7 @@ import com.example.assignment04.dto.SchedulerResponseDto;
 import com.example.assignment04.dto.SchedulerResponseDtoForSaveSchedule;
 import com.example.assignment04.entity.Schedule;
 import com.example.assignment04.service.SchedulerService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,15 @@ public class SchedulerController {
 
     }
 
-//    //전체 조회
-//    @GetMapping
-//    public List<MemoResponseDto> findAllMemos() {
-//
-//        return memoService.findAllMemos();
-//    }
+    //전체 조회
+    @GetMapping
+    public List<SchedulerResponseDto> findAllSchedules(
+            @RequestBody SchedulerRequestDto dto
+    ) {
+        return schedulerService.findAllSchedules(dto.getUserName(), dto.getUpdatedAt());
+    }
+
+
 //
 //    //단건 조회
 //    @GetMapping("/{id}")

@@ -10,4 +10,6 @@ public interface SchedulerRepository {
 
     SchedulerResponseDtoForSaveSchedule saveSchedule(Schedule schedule);
 
+    List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt);
+
 }

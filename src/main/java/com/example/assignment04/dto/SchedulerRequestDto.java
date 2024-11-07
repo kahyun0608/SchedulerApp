@@ -9,4 +9,6 @@ public class SchedulerRequestDto {
     private String title;
     private String contents;
     private String password;
+    private String updatedAt;
+
 }

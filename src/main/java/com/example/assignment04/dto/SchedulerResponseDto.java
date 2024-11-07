@@ -18,7 +18,7 @@ public class SchedulerResponseDto {
 
     private String contents;
 
-    private String updated_at;
+    private String updatedAt;
 
 
     public SchedulerResponseDto(Schedule schedule){
@@ -26,7 +26,7 @@ public class SchedulerResponseDto {
         this.userName = schedule.getUserName();
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
-        this.updated_at = schedule.getUpdated_at();
+        this.updatedAt = schedule.getUpdatedAt();
 
     }
 

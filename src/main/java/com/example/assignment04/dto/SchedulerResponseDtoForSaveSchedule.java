@@ -18,7 +18,7 @@ public class SchedulerResponseDtoForSaveSchedule {
 
     private String contents;
 
-    private String created_at;
+    private String createdAt;
 
 
     public SchedulerResponseDtoForSaveSchedule(Schedule schedule){
@@ -26,7 +26,7 @@ public class SchedulerResponseDtoForSaveSchedule {
         this.userName = schedule.getUserName();
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
-        this.created_at = schedule.getCreated_at();
+        this.createdAt = schedule.getCreatedAt();
     }
 
 }

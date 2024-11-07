@@ -5,7 +5,9 @@ import com.example.assignment04.dto.SchedulerResponseDto;
 import com.example.assignment04.dto.SchedulerResponseDtoForSaveSchedule;
 import com.example.assignment04.entity.Schedule;
 import com.example.assignment04.repository.SchedulerRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,5 +29,17 @@ public class SchedulerServiceImpl implements SchedulerService{
         // DB저장 ->레파지토리의 영역이므로 넘김
         //controller로 전달될 때 dto 형태로 전달
         return schedulerRepository.saveSchedule(schedule);
+    }
+
+    @Override
+    public List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt) {
+
+        List<SchedulerResponseDto> schedulesList = schedulerRepository.findAllSchedules(userName, updatedAt);
+
+        if (schedulesList.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results are founded");
+        }
+
+        return schedulerRepository.findAllSchedules(userName, updatedAt);
     }
 }

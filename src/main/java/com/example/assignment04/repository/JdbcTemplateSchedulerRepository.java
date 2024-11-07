@@ -51,9 +51,40 @@ public class JdbcTemplateSchedulerRepository implements SchedulerRepository {
 
         return new SchedulerResponseDtoForSaveSchedule(result.stream().findAny().get());
 
-//        return new SchedulerResponseDto(key.longValue());
     }
 
+    @Override
+    public List<SchedulerResponseDto> findAllSchedules(String userName, String updatedAt) {
+
+        //조건문 : userName이 입력되었을 경우, updatedAt이 입력되었을 경우, 모두 입력되었을 경우
+        // 문제 ) 하나의 값은 잘 적었는데 다른 값은 잘못(오류로) 입력해서 null로 설정될 경우 제대로 적은 조건을 바탕으로 조회가 됨
+        if (userName != null && updatedAt == null){
+            return jdbcTemplate.query("select * from schedules where user_name = ?", scheduleRowMapper(), userName);
+        } else if (userName == null && updatedAt != null){
+            return jdbcTemplate.query("select * from schedules where SUBSTRING(created_at, 1, 10) = ?", scheduleRowMapper(), updatedAt);
+        } else if (userName != null && updatedAt != null) {
+            return jdbcTemplate.query("select * from schedules where user_name = ? AND SUBSTRING(created_at, 1, 10) = ?", scheduleRowMapper(), userName, updatedAt);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "UserName or updatedAt is a required value to execute.");
+        }
+
+    }
+
+
+    private RowMapper<SchedulerResponseDto> scheduleRowMapper() {
+        return new RowMapper<SchedulerResponseDto>() {
+            @Override
+            public SchedulerResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new SchedulerResponseDto(
+                        rs.getLong("id"),
+                        rs.getString("user_name"),
+                        rs.getString("title"),
+                        rs.getString("contents"),
+                        rs.getString("updated_at")
+                );
+            }
+        };
+    }
 
     private RowMapper<Schedule> scheduleRowMapperV2() {
         return new RowMapper<Schedule>() {
