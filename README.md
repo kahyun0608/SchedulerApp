@@ -1,15 +1,15 @@
-# 일정 관리 앱 서버
-## 기능 구현
+# ⚡️일정 관리 앱 서버⚡️
+## 1. 기능 구현
 - JDBC를 사용하여 일정을 등록, 조회(전체/선택), 수정, 삭제 할 수 있는 CRUD 기능
 - 선택 일정을 수정, 삭제할 때 password를 받아 일치할 경우에만 기능 실행
   
-## API 명세서
+## 2. API 명세서
 https://documenter.getpostman.com/view/39354432/2sAY519Leg
 
-## ERD
+## 3. ERD
 <img width="283" alt="스크린샷 2024-10-31 오후 9 21 07" src="https://github.com/user-attachments/assets/2298923b-08b0-4952-8c00-e5842d16d7d7">
 
-## 어려웠던 문제
+## 4. 어려웠던 문제
 #### 1. prepared statement 활용의 이해가 부족해서 placeholder `?`를 활용하는 문법에 오류가 있었다.
 ```java
 jdbcTemplate.query("select * from schedules where user_name = '?' order by updated_at desc", scheduleRowMapper(), userName);
@@ -34,11 +34,11 @@ Schedule 클래스에 클래스의 모든 필드를 매개변수로 생성하는
 <img width="1165" alt="스크린샷 2024-11-08 오전 12 40 35" src="https://github.com/user-attachments/assets/79b5fdc4-44c0-47a6-bade-0bb82edf1869">
 
 칼럼명도 오류에 맞추어 `content` 로 바꾸면 해결이 되는 것을 보아 매핑 과정에 오류가 생기는 것 같았고 schema를 여러번 삭제하고 재작성하는 과정에서 해결이 되어 정확한 원인을 파악하지 못하게 되었다. (처음 몇 번의 삭제/재작성 과정에서는 해결되지 않았다.)
-## 개선사항
+## 5. 개선사항
 - Repository 영역에 RowMapper를 두 개 생성하여 사용하고 있는데 (각각 responseDto와 entity List로 반환) 중복되는 요소가 많아 하나만 사용할 수도 있을 것 같다.
 - Delete의 경우, 패스워드를 body로 받고 있는데 다른 방식으로 받는 것이 더 바람직해보인다.
 - Layered Architecture 구조에 익숙하지 않아 기능 배분이 명확하지 않아 개선의 여지가 있다.
-## 소감
+## 6. 소감
 아직 많은 Annotation이나 Layered Architectuere 구조에 익숙하지 않고 또 데이터베이스와 매핑하는 부분이 많이 어려운 것 같다. 
 또 중복되는 코드를 다듬거나 단순명료하게 논리를 짜는 연습이 필요할 것 같다.
 하지만 이번 프로젝트를 진행하며 콘솔을 통해 오류를 찾고 해결하는 방법에 많이 익숙해졌으며 Postman 활용방법을 익힐 수 있어 좋았다.
