@@ -41,7 +41,7 @@ Schedule 클래스에 클래스의 모든 필드를 매개변수로 생성하는
 </details>
 
 <details>
-<summary> 수정 기능을 구현할 때 일부분만 수정하기 위해 예외처리를 하는 문제</summary>
+<summary>수정 기능을 구현할 때 일부분만 수정하기 위해 예외처리를 하는 문제</summary>
 <div markdown="1">
   <br>
   https://velog.io/@dg6080/241108-개인과제3-트러블슈팅
