@@ -41,6 +41,14 @@ Schedule 클래스에 클래스의 모든 필드를 매개변수로 생성하는
 </details>
 
 <details>
+<summary> 수정 기능을 구현할 때 일부분만 수정하기 위해 예외처리를 하는 문제</summary>
+<div markdown="1">
+  <br>
+  https://velog.io/@dg6080/241108-개인과제3-트러블슈팅
+</div>
+</details>
+
+<details>
 <summary> 칼럼이 될 변수 `contents`가 데이터베이스로 매핑할 때 `content`로 인식이 되는 오류</summary>
 <div markdown="1">
   <br>
@@ -51,6 +59,10 @@ Schedule 클래스에 클래스의 모든 필드를 매개변수로 생성하는
 칼럼명도 오류에 맞추어 `content` 로 바꾸면 해결이 되는 것을 보아 매핑 과정에 오류가 생기는 것 같았고 schema를 여러번 삭제하고 재작성하는 과정에서 해결이 되어 정확한 원인을 파악하지 못하게 되었다. (처음 몇 번의 삭제/재작성 과정에서는 해결되지 않았다.)
 </div>
 </details>
+
+
+
+
 
 ## 5. 개선사항
 - Repository 영역에 RowMapper를 두 개 생성하여 사용하고 있는데 (각각 responseDto와 entity List로 반환) 중복되는 요소가 많아 하나만 사용할 수도 있을 것 같다.
