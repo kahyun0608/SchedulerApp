@@ -27,7 +27,7 @@ public class SchedulerController {
 
     //일정 생성
     @PostMapping
-    public ResponseEntity<SchedulerResponseDtoForSaveSchedule> createSchedule(@RequestBody SchedulerRequestDto dto) {
+    public ResponseEntity<SchedulerResponseDtoForSaveSchedule> saveSchedule(@RequestBody SchedulerRequestDto dto) {
 
         //Service Layer 호출, 응답
         return new ResponseEntity<>(schedulerService.saveSchedule(dto), HttpStatus.CREATED);
